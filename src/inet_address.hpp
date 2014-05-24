@@ -28,7 +28,7 @@ namespace httpproxy {
             friend std::ostream& operator << (std::ostream&, inet_address const&);
     };
 
-    std::ostream& operator << (std::ostream &os, inet_address const& addr);
+    extern std::ostream& operator << (std::ostream&, inet_address const&);
 
 }
 
