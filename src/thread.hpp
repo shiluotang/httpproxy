@@ -3,17 +3,23 @@
 
 namespace httpproxy {
 
+	/**
+	 * use C++11 standard library thread definition here.
+	 */
 	class thread {
 		public:
 			typedef long native_handle_type;
 
 			class id {
+				private:
+					explicit id(native_handle_type);
 				public:
 					bool operator == (id const&) const;
 					bool operator != (id const&) const;
 				private:
 					struct impl;
 					impl *m_data;
+					friend class thread;
 			};
 		public:
 			thread() noexcept;
