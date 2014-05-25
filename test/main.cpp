@@ -7,15 +7,9 @@
 #include <iostream>
 #include <vector>
 
-#include <thread>
-
 using namespace std;
 
 int main(int argc, char* argv[]) {
-
-	httpproxy::thread t;
-	t.get_id();
-	t.joinable();
 
     try {
         httpproxy::socket_environment env;
