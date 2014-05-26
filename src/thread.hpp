@@ -1,6 +1,8 @@
 #ifndef HTTPPROXY_THREAD_HPP_INCLUDED
 #define HTTPPROXY_THREAD_HPP_INCLUDED
 
+#include <iosfwd>
+
 namespace httpproxy {
 
 	/**
@@ -12,6 +14,7 @@ namespace httpproxy {
 
 			class id {
 				private:
+					id();
 					explicit id(native_handle_type);
 				public:
 					bool operator == (id const&) const;
@@ -20,6 +23,7 @@ namespace httpproxy {
 					struct impl;
 					impl *m_data;
 					friend class thread;
+					friend std::ostream& operator << (std::ostream&, id const&);
 			};
 		public:
 			thread() noexcept;
@@ -42,6 +46,7 @@ namespace httpproxy {
 
 			static unsigned hardware_concurrency() noexcept;
 	};
+	extern std::ostream& operator << (std::ostream&, thread::id const&);
 
 	extern void swap(thread&, thread&) noexcept;
 
