@@ -15,6 +15,8 @@
 #include <string>
 #include <stdexcept>
 
+#include "../platform_error.hpp"
+
 using namespace std;
 
 namespace httpproxy {
@@ -46,8 +48,10 @@ namespace httpproxy {
         addrinfo hint = {0}, *pAddrInfo = 0;
         hint.ai_family = PF_UNSPEC;
         hint.ai_flags = AI_PASSIVE;
-        if(::getaddrinfo(node_name.c_str(), service_name.c_str(), &hint, &pAddrInfo) != 0)
+        if(::getaddrinfo(node_name.c_str(), service_name.c_str(), &hint, &pAddrInfo) != 0) {
+            cerr << platform_error(::GetLastError()).what() << endl;
             return -1;
+        }
         int cnt = 0;
         for(addrinfo* pAddr = pAddrInfo; pAddr; pAddr = pAddr->ai_next) {
             inet_address addr;
@@ -73,8 +77,10 @@ namespace httpproxy {
                 &host_buf[0], NI_MAXHOST,
                 &service_buf[0], NI_MAXSERV,
                 NI_NUMERICHOST | NI_NUMERICSERV);
-        if(retcode != 0)
+        if(retcode != 0) {
+            cerr << platform_error(::GetLastError()).what() << endl;
             return os;
+        }
         return os << &host_buf[0] << ':' << &service_buf[0];
     }
 }
