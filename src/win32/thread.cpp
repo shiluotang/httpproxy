@@ -73,7 +73,6 @@ namespace httpproxy {
         }
     }
 
-
     namespace this_thread {
         thread::id get_id() noexcept { return thread::id(reinterpret_cast<thread::native_handle_type>(::GetCurrentThread())); }
         void yield() noexcept { ::SleepEx(0, TRUE); }
