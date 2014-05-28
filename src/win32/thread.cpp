@@ -8,6 +8,9 @@
 using namespace std;
 
 namespace {
+    /**
+     * copied from GCC thread.cc in libstdc++-v3
+     */
     extern "C" DWORD WINAPI thread_proc(LPVOID arg) {
         using namespace httpproxy;
         thread::callable_impl_base *callable = static_cast<thread::callable_impl_base*>(arg);
