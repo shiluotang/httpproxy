@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <sstream>
+#include <iosfwd>
 
 namespace httpproxy {
 
@@ -15,6 +16,10 @@ namespace httpproxy {
         ss >> converted;
         return converted;
     }
+
+    extern std::string const demangle(std::string const& mangled_name);
+
+#define DEMANGLE(X) demangle(typeid(X).name())
 }
 
 #endif //HTTPPROXY_UTILS_HPP_INCLUDED

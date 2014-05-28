@@ -9,7 +9,8 @@ libhttpproxy_la_SOURCES = \
 ./src/win32/platform_error.cpp \
 ./src/win32/socket.cpp \
 ./src/win32/socket_environment.cpp \
-./src/win32/thread.cpp
+./src/win32/thread.cpp \
+./src/utils.cpp
 libhttpproxy_la_LDFLAGS = -no-undefined -lwsock32 -lws2_32 -lmswsock
 
 noinst_PROGRAMS = test1
