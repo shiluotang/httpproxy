@@ -16,10 +16,9 @@ namespace httpproxy {
 			typedef long native_handle_type;
 
 			class id {
-                private:
-                    explicit id(native_handle_type);
 				public:
                     id() noexcept;
+                    explicit id(native_handle_type);
 				private:
                     native_handle_type m_handle;
 
@@ -31,6 +30,7 @@ namespace httpproxy {
                     friend bool operator <= (thread::id, thread::id) noexcept;
                     friend bool operator >  (thread::id, thread::id) noexcept;
                     friend bool operator <  (thread::id, thread::id) noexcept;
+
 			};
         public:
             struct callable_impl_base;
@@ -87,8 +87,19 @@ namespace httpproxy {
 	extern void swap(thread&, thread&) noexcept;
 
 	namespace this_thread {
-		extern thread::id get_id();
-		extern void yield();
+		extern thread::id get_id() noexcept;
+		extern void yield() noexcept;
+        extern void sleep_for(std::chrono::milliseconds, std::chrono::nanoseconds);
+        template<typename _Rep, typename _Period>
+        void sleep_for(std::chrono::duration<_Rep, _Period> const &rtime) {
+            std::chrono::milliseconds msecs = std::chrono::duration_cast<std::chrono::milliseconds>(rtime);
+            std::chrono::nanoseconds nsecs = std::chrono::duration_cast<std::chrono::nanoseconds>(rtime - msecs);
+            sleep_for(msecs, nsecs);
+        }
+        template<typename _Clock, typename _Duration>
+        void sleep_until(std::chrono::time_point<_Clock, _Duration> const &atime) {
+            sleep_for(atime - _Clock::now());
+        }
 	}
 }
 

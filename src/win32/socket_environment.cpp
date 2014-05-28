@@ -33,7 +33,7 @@ namespace httpproxy {
                     clog << "socket environment successfully cleaned up." << endl;
             }
         private:
-            WSADATA m_wsaData;
+            ::WSADATA m_wsaData;
     };
 
     socket_environment::socket_environment() {

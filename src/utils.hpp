@@ -19,7 +19,7 @@ namespace httpproxy {
 
     extern std::string const demangle(std::string const& mangled_name);
 
-#define DEMANGLE(X) demangle(typeid(X).name())
 }
+#define DEMANGLE(X) ::httpproxy::demangle(typeid(X).name())
 
 #endif //HTTPPROXY_UTILS_HPP_INCLUDED

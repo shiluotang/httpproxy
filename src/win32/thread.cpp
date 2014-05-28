@@ -28,7 +28,7 @@ namespace {
 namespace httpproxy {
 
     thread::id::id() noexcept :m_handle() {}
-    thread::id::id(native_handle_type nativeHandle) :m_handle(nativeHandle) {}
+    thread::id::id(native_handle_type nativeHandle) :m_handle(nativeHandle) { }
     ostream& operator << (ostream &os, thread::id id) { return os << id.m_handle << endl; }
     bool operator == (thread::id a, thread::id b) noexcept { return a.m_handle == b.m_handle; }
     bool operator != (thread::id a, thread::id b) noexcept { return a.m_handle != b.m_handle; }
@@ -71,5 +71,12 @@ namespace httpproxy {
             shared_callable_base->m_self.reset();
             throw platform_error(::GetLastError());
         }
+    }
+
+
+    namespace this_thread {
+        thread::id get_id() noexcept { return thread::id(reinterpret_cast<thread::native_handle_type>(::GetCurrentThread())); }
+        void yield() noexcept { ::SleepEx(0, TRUE); }
+        void sleep_for(chrono::milliseconds msecs, chrono::nanoseconds nsecs) { ::SleepEx(msecs.count(), TRUE); }
     }
 }
