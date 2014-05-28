@@ -6,7 +6,7 @@
 
 namespace httpproxy {
 
-    class platform_error : std::runtime_error {
+    class platform_error : public std::runtime_error {
         public:
             platform_error(int, std::string const&);
             explicit platform_error(int);
