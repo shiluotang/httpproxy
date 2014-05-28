@@ -89,6 +89,15 @@ namespace httpproxy {
 	namespace this_thread {
 		extern thread::id get_id() noexcept;
 		extern void yield() noexcept;
+		/**
+		 * This is not part of standard C++11.
+		 * As template functions need implementations defined along with
+		 * declarations, we can't use template functions as prototypes
+		 * which will encapsulate platform implementations. And we are
+		 * not going to use inheritance for abstraction which can result
+		 * in bad performance. We use this function for separate
+		 * compilation to accomplish implementation encapsulation.
+		 */
         extern void sleep_for(std::chrono::milliseconds, std::chrono::nanoseconds);
         template<typename _Rep, typename _Period>
         void sleep_for(std::chrono::duration<_Rep, _Period> const &rtime) {
