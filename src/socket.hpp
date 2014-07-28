@@ -24,7 +24,7 @@ class socket {
         bool bind(inet_address const&);
         bool listen(int backlog);
     private:
-        std::shared_ptr<socket_handle> m_handle_ptr;
+        std::shared_ptr<socket_handle> _M_handle_ptr;
 };
 
 }
