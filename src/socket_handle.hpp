@@ -14,7 +14,7 @@ namespace httpproxy {
 
             operator bool() const;
         private:
-            int m_data;
+            int _M_data;
 
             friend class socket;
     };
