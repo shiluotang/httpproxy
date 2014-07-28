@@ -17,7 +17,7 @@ namespace httpproxy {
             impl_data() {
                 int const MAJOR_VERSION = 2;
                 int const MINOR_VERSION = 2;
-                int status = ::WSAStartup(MAKEWORD(MAJOR_VERSION, MINOR_VERSION), &m_wsaData);
+                int status = ::WSAStartup(MAKEWORD(MAJOR_VERSION, MINOR_VERSION), &_M_wsaData);
                 if(status != 0) {
                     cerr << "failed to initialize socket environment." << endl;
                     throw platform_error(::GetLastError());
@@ -33,16 +33,16 @@ namespace httpproxy {
                     clog << "socket environment successfully cleaned up." << endl;
             }
         private:
-            ::WSADATA m_wsaData;
+            ::WSADATA _M_wsaData;
     };
 
     socket_environment::socket_environment() {
-        m_data = new impl_data();
+        _M_data = new impl_data();
     }
     socket_environment::~socket_environment() {
-        if(m_data) {
-            delete m_data;
-            m_data = NULL;
+        if(_M_data) {
+            delete _M_data;
+            _M_data = NULL;
         }
     }
 
