@@ -28,12 +28,12 @@ namespace httpproxy {
     socket::~socket() {}
 
     int socket::send(void const* buf, size_t num) {
-        return ::send(static_cast<SOCKET>(m_handle_ptr->m_data),
+        return ::send(static_cast<SOCKET>(m_handle_ptr->_M_data),
                 reinterpret_cast<char const*>(buf), num,
                 0);
     }
     int socket::receive(void *buf, size_t buf_size) {
-        return ::recv(static_cast<SOCKET>(m_handle_ptr->m_data),
+        return ::recv(static_cast<SOCKET>(m_handle_ptr->_M_data),
                 reinterpret_cast<char*>(buf), buf_size,
                 0);
     }
@@ -43,18 +43,18 @@ namespace httpproxy {
     socket socket::accept() {
         sockaddr addr = {0};
         int addrlen = sizeof(addr);
-        SOCKET s = ::accept(static_cast<SOCKET>(m_handle_ptr->m_data), 
+        SOCKET s = ::accept(static_cast<SOCKET>(m_handle_ptr->_M_data), 
                 &addr, &addrlen);
         clog << "received connection from " << inet_address(&addr, addrlen) << endl;
         return socket(s);
     }
 
     bool socket::bind(inet_address const& addr) {
-        return ::bind(static_cast<SOCKET>(m_handle_ptr->m_data),
+        return ::bind(static_cast<SOCKET>(m_handle_ptr->_M_data),
                 reinterpret_cast<sockaddr const*>(addr.raw_addr()),
                 addr.raw_addr_len()) == 0;
     }
     bool socket::listen(int backlog) {
-        return ::listen(static_cast<SOCKET>(m_handle_ptr->m_data), backlog) == 0;
+        return ::listen(static_cast<SOCKET>(m_handle_ptr->_M_data), backlog) == 0;
     }
 }
