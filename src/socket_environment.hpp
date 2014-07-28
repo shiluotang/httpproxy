@@ -9,7 +9,7 @@ namespace httpproxy {
 
         private:
             class impl_data;
-            impl_data *m_data;
+            impl_data *_M_data;
     };
 }
 
