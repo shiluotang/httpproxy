@@ -29,11 +29,11 @@ namespace {
 namespace httpproxy {
 
     platform_error::platform_error(int error_code, string const& msg)
-        :runtime_error(msg.c_str()), m_err(error_code) {
+        :runtime_error(msg.c_str()), _M_err(error_code) {
     }
 
     platform_error::platform_error(int error_code)
-        :runtime_error(win32_error_msg(error_code)), m_err(error_code) {
+        :runtime_error(win32_error_msg(error_code)), _M_err(error_code) {
     }
 
 }

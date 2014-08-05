@@ -9,6 +9,7 @@
 #include "../socket_handle.hpp"
 #include "../socket.hpp"
 #include "../utils.hpp"
+#include "../platform_error.hpp"
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -33,12 +34,24 @@ namespace httpproxy {
                 0);
     }
     int socket::receive(void *buf, size_t buf_size) {
-        return ::recv(static_cast<SOCKET>(_M_handle_ptr->_M_data),
+		return ::recv(static_cast<SOCKET>(_M_handle_ptr->_M_data),
                 reinterpret_cast<char*>(buf), buf_size,
                 0);
     }
 
     socket::operator bool() const { return _M_handle_ptr->operator bool(); }
+
+	bool socket::connect(inet_address const &addr) {
+		clog << "connecting to " << addr << " ..."<< endl;
+		if (::connect(_M_handle_ptr->_M_data,
+				reinterpret_cast<sockaddr const*>(addr.raw_addr()),
+				addr.raw_addr_len()) == SOCKET_ERROR) {
+			cerr << platform_error(::WSAGetLastError()).what() << endl;
+			return false;
+		}
+		clog << "connected to " << addr << endl;
+		return true;
+	}
 
     socket socket::accept() {
         sockaddr addr = {0};

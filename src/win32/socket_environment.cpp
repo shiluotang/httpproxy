@@ -20,14 +20,14 @@ namespace httpproxy {
                 int status = ::WSAStartup(MAKEWORD(MAJOR_VERSION, MINOR_VERSION), &_M_wsaData);
                 if(status != 0) {
                     cerr << "failed to initialize socket environment." << endl;
-                    throw platform_error(::GetLastError());
+                    throw platform_error(::WSAGetLastError());
                 }
                 clog << "socket environment successfully initialize" << endl;
             }
             ~impl_data() {
                 int status = ::WSACleanup();
                 if(status != 0) {
-                    cerr << platform_error(::GetLastError()).what();
+                    cerr << platform_error(::WSAGetLastError()).what();
                     //cerr << "failed to cleanup socket environment." << endl;
                 } else
                     clog << "socket environment successfully cleaned up." << endl;

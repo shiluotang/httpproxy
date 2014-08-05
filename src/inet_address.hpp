@@ -22,7 +22,7 @@ namespace httpproxy {
             std::size_t& raw_addr_len();
 
             struct impl_data;
-            std::shared_ptr<impl_data> m_data;
+            std::shared_ptr<impl_data> _M_data;
 
             friend class socket;
             friend std::ostream& operator << (std::ostream&, inet_address const&);

@@ -10,9 +10,9 @@ namespace httpproxy {
         public:
             platform_error(int, std::string const&);
             explicit platform_error(int);
-            int const error_no() const { return m_err; }
+            int const error_no() const { return _M_err; }
         private:
-            int m_err;
+            int _M_err;
     };
 }
 

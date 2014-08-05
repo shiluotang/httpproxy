@@ -5,6 +5,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <system_error>
 
@@ -29,26 +30,37 @@ int test_socket(int argc, char* argv[]) {
     return EXIT_SUCCESS;
 }
 
-void foo() {
-    for(int i = 0; i < 5; ++i) {
-        httpproxy::this_thread::sleep_for(chrono::seconds(1));
-        cout << "Hello!" << endl;
-    }
-}
-
-int test_sleep(int argc, char* argv[]) {
-    httpproxy::thread t(foo);
-    t.join();
-    return EXIT_SUCCESS;
+int test_http(int argc, char* argv[]) {
+	httpproxy::socket_environment env;
+	vector<httpproxy::inet_address> addresses;
+	if (httpproxy::inet_address::lookup("www.baidu.com", "80", addresses) < 1)
+		return EXIT_FAILURE;
+	string const REQUEST = "GET http://www.baidu.com/ HTTP/1.1\r\n"
+		"Host: www.baidu.com\r\n"
+		"\r\n\r\n";
+	httpproxy::socket s(AF_INET, SOCK_STREAM, IPPROTO_IP);
+	s.connect(addresses[0]);
+	clog << "sending data..." << endl;
+	clog << "REQUEST is " << REQUEST << endl;
+	s.send(REQUEST.data(), REQUEST.size());
+	char buf[4096];
+	int cnt;
+	stringstream ss;
+	while ((cnt = s.receive(buf, sizeof(buf))) > 0) {
+		clog << "reading " << cnt << " bytes." << endl;
+		ss.write(buf, cnt);
+	}
+	cout << "received data is " << ss.str() << endl;
+	return EXIT_SUCCESS;
 }
 
 int main(int argc, char* argv[]) {
-    clock_t t1, t2;
     try {
-        t1 = clock();
-        int retcode = test_socket(argc, argv);
-        t2 = clock();
-        clog << "Running time is " << static_cast<double>(t2 - t1) / CLOCKS_PER_SEC << " seconds." << endl;
+		httpproxy::stop_watch watch;
+		watch.start();
+        int retcode = test_http(argc, argv);
+		watch.stop();
+        clog << "Running time is " << watch << "." << endl;
         return retcode;
     } catch(exception &e) {
         cerr << "[exception]: " << e.what() << endl;
