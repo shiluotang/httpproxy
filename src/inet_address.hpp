@@ -13,7 +13,21 @@ namespace httpproxy {
             inet_address();
             inet_address(void const* raw_addr, std::size_t addrlen);
         public:
-            static int lookup(std::string const&, std::string const&, std::vector<inet_address>&);
+			/**
+			 * Lookup network address.
+			 *
+			 * @param node_name standards for the host name, such as
+			 * www.google.com
+			 * @param service_name standards for the port. such as "mysql" which
+			 * means 3306 as it is the default port for MySQL service.
+			 * @param addrs results will be added to this container.
+			 *
+			 * @return As the human readable address may be mapped to more than
+			 * one addresses, the result value is the count of the found ones.
+			 */
+            static int lookup(std::string const &node_name,
+					std::string const &service_name,
+					std::vector<inet_address> &addrs);
 
         private:
             void const* raw_addr() const;
