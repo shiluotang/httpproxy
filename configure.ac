@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([httpproxy], [0.1], [shengquangang2008@gmail.com])
+AC_INIT([httpproxy], [0.2], [shengquangang2008@gmail.com])
 
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
