@@ -23,8 +23,8 @@ namespace httpproxy {
 
     socket::socket() :_M_handle_ptr(new socket_handle()) {}
     socket::socket(int handle) :_M_handle_ptr(new socket_handle(handle)) {}
-    socket::socket(int address_family, int socket_type, int protocol_type)
-        :_M_handle_ptr(new socket_handle(address_family, socket_type, protocol_type))
+    socket::socket(protocol_family pf, socket_type st, transport_protocol tp)
+        :_M_handle_ptr(new socket_handle(pf, st, tp))
     {}
     socket::~socket() {}
 

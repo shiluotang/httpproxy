@@ -8,9 +8,13 @@
 
 namespace httpproxy {
 
-    template<typename T, std::size_t N> std::size_t countof(T const (&a)[N]) { return N; }
+    template<typename T, std::size_t N>
+    std::size_t countof(T const (&a)[N]) {
+        return N;
+    }
 
-    template<typename U, typename V> U sstream_cast(V val) {
+    template<typename U, typename V>
+    U sstream_cast(V const &val) {
         std::stringstream ss;
         ss << val;
         U converted;
@@ -31,7 +35,7 @@ namespace httpproxy {
 			void start();
 			void stop();
 			void reset();
-			double elapsedMilliseconds() const;
+			double elapsedMillis() const;
 		private:
 			time_point _M_start;
 			duration _M_duration;

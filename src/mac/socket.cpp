@@ -15,7 +15,10 @@
 using namespace std;
 
 namespace {
+    using namespace httpproxy;
+
     int const SOCKET_ERROR = -1;
+
     typedef int SOCKET;
 }
 
@@ -23,8 +26,8 @@ namespace httpproxy {
 
     socket::socket() :_M_handle_ptr(new socket_handle()) {}
     socket::socket(int handle) :_M_handle_ptr(new socket_handle(handle)) {}
-    socket::socket(int address_family, int socket_type, int protocol_type)
-        :_M_handle_ptr(new socket_handle(address_family, socket_type, protocol_type))
+    socket::socket(protocol_family pf, socket_type st, transport_protocol tp)
+        :_M_handle_ptr(new socket_handle(pf, st, tp))
     {}
     socket::~socket() {}
 
@@ -55,7 +58,7 @@ namespace httpproxy {
 
     socket socket::accept() {
         sockaddr addr = {0};
-        int addrlen = sizeof(addr);
+        socklen_t addrlen = sizeof(addr);
         SOCKET s = ::accept(static_cast<SOCKET>(_M_handle_ptr->_M_data),
                 &addr, &addrlen);
         clog << "received connection from " << inet_address(&addr, addrlen) << endl;
@@ -71,4 +74,3 @@ namespace httpproxy {
         return ::listen(static_cast<SOCKET>(_M_handle_ptr->_M_data), backlog) == 0;
     }
 }
-

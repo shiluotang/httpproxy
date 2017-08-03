@@ -10,11 +10,25 @@ namespace httpproxy {
 class socket_handle;
 class inet_address;
 class socket {
+    public:
+        enum protocol_family {
+            INTERNET
+        };
+
+        enum socket_type {
+            STREAM,
+            DGRAM,
+            RAW
+        };
+
+        enum transport_protocol {
+            IP
+        };
     private:
         explicit socket(int handle);
     public:
         socket();
-        socket(int address_family, int socket_type, int protocol_type);
+        socket(protocol_family, socket_type, transport_protocol);
         virtual ~socket();
         int send(void const* buf, std::size_t num);
         int receive(void* buf, std::size_t buf_size);

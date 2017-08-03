@@ -40,7 +40,7 @@ namespace httpproxy {
                 virtual ~callable_impl_base() {};
                 virtual void run() = 0;
             };
-            
+
             template<typename Callable> struct template_callable_impl : public callable_impl_base {
                 Callable m_callable;
                 explicit template_callable_impl(Callable&& func) :m_callable(std::forward<Callable>(func)) {}

@@ -1,20 +1,20 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.68])
+AC_PREREQ([2.63])
 AC_INIT([httpproxy], [0.2], [shengquangang2008@gmail.com])
 
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
-AC_CONFIG_SRCDIR([test/main.cpp])
+AC_CONFIG_SRCDIR([src])
 AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
-m4_pattern_allow([AM_PROG_AR])
 
 # Checks for programs.
 AC_PROG_CXX
+m4_pattern_allow([AM_PROG_AR])
 AM_PROG_AR
 LT_INIT
 
@@ -32,6 +32,8 @@ AC_CHECK_LIB([wsock32], [WSAStartup])
 
 # Checks for library functions.
 AC_CHECK_FUNCS([memset socket])
+
+AX_PLATFORM_DETECT
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile])

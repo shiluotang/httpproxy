@@ -1,8 +1,5 @@
 #include "../src/httpproxy.hpp"
 
-#include <winsock2.h>
-#include <ws2tcpip.h>
-
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
@@ -31,15 +28,19 @@ int test_socket(int argc, char* argv[]) {
 }
 
 int test_http(int argc, char* argv[]) {
+    using namespace httpproxy;
     httpproxy::socket_environment env;
     vector<httpproxy::inet_address> addresses;
     if (httpproxy::inet_address::lookup("www.baidu.com", "80", addresses) < 1)
-        return EXIT_FAILURE;
+        throw runtime_error("Can't lookup ip address!");
     string const REQUEST = "GET http://www.baidu.com/ HTTP/1.1\r\n"
         "Host: www.baidu.com\r\n"
         "\r\n\r\n";
-    httpproxy::socket s(AF_INET, SOCK_STREAM, IPPROTO_IP);
-    s.connect(addresses[0]);
+    httpproxy::socket s;
+    if (!s)
+        throw std::runtime_error("Bad socket!");
+    if (!s.connect(addresses[0]))
+        throw std::runtime_error("connect failed!");
     clog << "sending data..." << endl;
     clog << "REQUEST is " << REQUEST << endl;
     s.send(REQUEST.data(), REQUEST.size());

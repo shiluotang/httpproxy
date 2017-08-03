@@ -31,7 +31,7 @@ namespace httpproxy {
 		_M_start = clock_type::now();
 		_M_running = true;
 	}
-	
+
 	void stop_watch::stop() {
 		if (!_M_running)
 			return;
@@ -45,14 +45,14 @@ namespace httpproxy {
 		_M_running = false;
 	}
 
-	double stop_watch::elapsedMilliseconds() const {
+	double stop_watch::elapsedMillis() const {
 		if (!_M_running)
 			return chrono::duration_cast<double_milli>(_M_duration).count();
 		return chrono::duration_cast<double_milli>((clock_type::now() - _M_start) + _M_duration).count();
 	}
 
 	ostream& operator << (ostream &os, stop_watch const &watch) {
-		return os << watch.elapsedMilliseconds() << " ms";
+		return os << watch.elapsedMillis() << " ms";
 	}
 
 }
