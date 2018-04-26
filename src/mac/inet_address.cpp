@@ -21,7 +21,7 @@ namespace {
         memset(&buf[0], 0, sizeof(buf));
         gai_strerror_r(errcode, &buf[0], sizeof(buf));
         return string(&buf[0]);
-    } 
+    }
 #else
     static std::string addrinfo_errstr(int errcode) {
         return string(gai_strerror(errcode));
